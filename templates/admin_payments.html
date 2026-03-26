@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>All Payments</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="bg-light dark-mode-bg">
+
+    <div class="container my-5">
+
+        <div class="card shadow-lg p-4">
+            <h2>
+                <i class="fa-solid fa-credit-card"></i> All Payments
+            </h2>
+
+            <div class="table-responsive mt-3">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Booking ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Method</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for p in payments %}
+                        <tr>
+                            <td>{{ p[0] }}</td>
+                            <td>{{ p[1] }}</td>
+                            <td>₹{{ p[2] }}</td>
+                            <td>{{ p[3] }}</td>
+                            <td>{{ p[4] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <a href="/admin_dashboard" class="btn btn-secondary mt-3">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </a>
+        </div>
+
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Secure Payment - Prajapati Palace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="bg-light">
+
+    <div class="container my-5" style="max-width: 700px;">
+        <div class="card shadow-lg p-5 border-0">
+            <div class="text-center mb-4">
+                <i class="fa-solid fa-shield-halved fa-3x text-gold mb-3"></i>
+                <h2 style="font-family: 'Playfair Display', serif;">Secure Payment</h2>
+                <p class="text-muted">Booking Reference #{{ booking_id }}</p>
+            </div>
+
+            <form method="POST" class="row g-4 mt-1" id="paymentForm">
+                
+                <div class="col-12">
+                    <label class="form-label fw-bold text-uppercase small text-muted">Transaction Reference ID</label>
+                    <input type="text" id="txnId" class="form-control font-monospace bg-light" readonly>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-gold small text-uppercase">Amount (INR)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">₹</span>
+                        <input type="number" step="0.01" name="amount" required class="form-control border-start-0 ps-0" placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-gold small text-uppercase">Payment Mode</label>
+                    <select name="method" class="form-select" id="paymentMethod" onchange="updatePaymentDetails()">
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Debit Card">Debit Card</option>
+                        <option value="UPI">UPI / VPA</option>
+                        <option value="Cash">Cash at Counter</option>
+                    </select>
+                </div>
+
+                <div class="col-12" id="cardDetails">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-bold text-muted small text-uppercase">Card Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-regular fa-credit-card"></i></span>
+                                <input type="text" name="card_number" class="form-control" placeholder="0000 0000 0000 0000" maxlength="19">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12" id="upiDetails" style="display:none;">
+                    <label class="form-label fw-bold">UPI ID</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fa-brands fa-google-pay"></i></span>
+                        <input type="text" name="upi_id" class="form-control" placeholder="username@oksbi">
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label fw-bold text-gold small text-uppercase">Payment Date</label>
+                    <input type="date" name="payment_date" class="form-control">
+                </div>
+
+                <div class="col-12 pt-3">
+                    <button class="btn btn-gold w-100 py-3 fw-bold text-uppercase">
+                        <i class="fa-solid fa-lock me-2"></i> Process Payment
+                    </button>
+                </div>
+            </form>
+
+            <a href="/booking/{{ booking_id }}/payments" class="btn btn-outline-secondary mt-4 w-100 border-0">
+                Cancel Transaction
+            </a>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+    <script>
+        // Generate Random Transaction ID
+        document.addEventListener("DOMContentLoaded", function() {
+            const date = new Date();
+            const randomNum = Math.floor(100000 + Math.random() * 900000);
+            const txnString = `TXN-${date.getFullYear()}-PRAJAPATI-${randomNum}`;
+            document.getElementById('txnId').value = txnString;
+        });
+
+        // Toggle inputs based on dropdown
+        function updatePaymentDetails() {
+            const method = document.getElementById('paymentMethod').value;
+            const cardDiv = document.getElementById('cardDetails');
+            const upiDiv = document.getElementById('upiDetails');
+
+            if (method.includes('Card')) {
+                cardDiv.style.display = 'block';
+                upiDiv.style.display = 'none';
+            } else if (method === 'UPI') {
+                cardDiv.style.display = 'none';
+                upiDiv.style.display = 'block';
+            } else {
+                cardDiv.style.display = 'none';
+                upiDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

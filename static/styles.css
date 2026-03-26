@@ -1,0 +1,170 @@
+/* static/styles.css - Exact Replica Theme with Fixes */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+
+:root {
+    --bg-cream: #fbf9f5;
+    --gold: #c5a059;         /* Leela Gold */
+    --gold-hover: #b08d4b;
+    --dark: #1a1a1a;
+    --text-muted: #666;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    color: var(--dark);
+    background-color: var(--bg-cream);
+    line-height: 1.6;
+}
+
+/* Typography */
+.font-playfair, h1, h2, h3, h4, .brand-logo, .section-title {
+    font-family: 'Playfair Display', serif;
+}
+
+.brand-logo {
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+    color: var(--dark);
+    text-transform: uppercase;
+}
+.brand-sub {
+    font-family: 'Lato', sans-serif;
+    color: var(--gold);
+}
+
+.ls-1 { letter-spacing: 1px; }
+.ls-2 { letter-spacing: 2px; }
+
+/* Colors & Buttons */
+.text-gold { color: var(--gold) !important; }
+.bg-cream { background-color: var(--bg-cream) !important; }
+
+.btn-gold {
+    background-color: #a38248; /* Darker Gold for Buttons */
+    color: #fff;
+    border: none;
+    transition: all 0.3s ease;
+}
+.btn-gold:hover {
+    background-color: #8c6e3b;
+    color: #fff;
+}
+
+.btn-outline-gold {
+    color: var(--dark);
+    border: 1px solid var(--gold);
+    background: transparent;
+    border-radius: 0;
+}
+.btn-outline-gold:hover {
+    background-color: var(--gold);
+    color: #fff;
+}
+
+/* Hero Section */
+.hero-slide {
+    height: 90vh;
+    min-height: 600px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.2);
+}
+.carousel-caption {
+    bottom: 20%;
+}
+
+/* Booking Bar */
+.booking-bar-container {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+.booking-bar {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0;
+    display: flex;
+}
+.booking-bar select option {
+    color: #000;
+}
+.booking-bar ::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+/* Separator */
+.separator-gold {
+    width: 100px;
+    height: 2px;
+    background-color: var(--gold);
+    margin: 20px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.separator-gold::after {
+    content: "∞"; 
+    background: var(--bg-cream);
+    padding: 0 10px;
+    color: var(--gold);
+    font-size: 1.2rem;
+    position: absolute;
+}
+
+/* --- EXPERIENCE CARD FIXES --- */
+.experience-card {
+    position: relative;
+    /* Removed overflow: hidden so label can hang out */
+    overflow: visible; 
+}
+
+/* Wrapper for the image to handle zoom clipping */
+.img-wrapper {
+    overflow: hidden; 
+    height: 400px;
+    width: 100%;
+}
+
+.img-wrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.experience-card:hover .img-wrapper img {
+    transform: scale(1.05);
+}
+
+.card-label {
+    position: absolute;
+    bottom: -30px; /* Overlap effect */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 20px 40px;
+    text-align: center;
+    width: 80%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+/* Forms */
+.form-control:focus, .form-select:focus {
+    box-shadow: none;
+    border-color: var(--gold);
+}
+
+/* Footer */
+footer a:hover {
+    color: var(--gold) !important;
+}
