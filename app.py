@@ -5,21 +5,17 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = "hotel123"
 
-
 @app.route("/")
 def home():
     return render_template("home.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    
     if request.method == "GET":
         return render_template("login.html")
 
-    
     role = request.form.get("role")
     
-   
     captcha_input = request.form.get("captcha_input", "").strip()
     captcha_answer = request.form.get("captcha_answer", "").strip()
     
@@ -27,7 +23,6 @@ def login():
         flash("Security Check Failed. Please try the math again.", "danger")
         return render_template("login.html")
 
-    
     if role == "admin":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -44,7 +39,6 @@ def login():
         flash("Invalid admin credentials.", "danger")
         return render_template("login.html")
 
-    
     else:
         email = request.form.get("email")
         phone = request.form.get("phone")
@@ -191,9 +185,6 @@ def book():
     rooms = db.get_available_rooms(str(today), str(future))
     return render_template("booking.html", rooms=rooms)
 
-# app.py (Updated Payment Section)
-
-# ... (Previous code remains the same) ...
 
 # ==========================================
 # PAYMENT LOGIC (FIXED)
@@ -229,6 +220,9 @@ def make_payment(booking_id):
         return redirect(f"/booking/{booking_id}/payments")
         
     return render_template("make_payment.html", booking_id=booking_id)
+
+# Vercel Configuration (Required for serverless)
+app = app
 
 if __name__ == "__main__":
     app.run(debug=True)
