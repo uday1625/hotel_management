@@ -1,13 +1,14 @@
-
 import mysql.connector as myconn
 import config
 from datetime import datetime
 
+# Connection me config.PORT add kiya hai jo cloud ke liye zaroori hai
 db = myconn.connect(
-    host="localhost",
-    user="root",
-    password="root",
-    database="Hotel"
+    host=config.HOST,
+    user=config.USER,
+    password=config.PASSWORD,
+    database=config.DATABASE,
+    port=config.PORT
 )
 cursor = db.cursor(buffered=True)
 
@@ -37,7 +38,6 @@ def delete_user(id):
 
 
 def validate_admin(username, password):
-    # demo: check Admins table
     cursor.execute("SELECT * FROM Admins WHERE Username=%s AND Password=%s", (username, password))
     return cursor.fetchone() is not None
 
@@ -50,9 +50,6 @@ def get_all_rooms():
     return cursor.fetchall()
 
 def get_available_rooms(start_date, end_date):
-    """
-    Return rooms that have no overlapping confirmed bookings between start_date and end_date.
-    """
     query = """
     SELECT r.* FROM Room r
     WHERE r.Room_ID NOT IN (
@@ -75,7 +72,6 @@ def update_room_status(room_id, status):
 
 
 def create_booking(guest_id, room_id, check_in, check_out, status='Confirmed'):
-    # Basic overlap check
     query = """
     SELECT COUNT(*) FROM Booking b
     WHERE b.Room_ID=%s AND NOT (b.Check_Out_Date <= %s OR b.Check_IN_Date >= %s)
@@ -84,7 +80,7 @@ def create_booking(guest_id, room_id, check_in, check_out, status='Confirmed'):
     cursor.execute(query, (room_id, check_in, check_out))
     conflict = cursor.fetchone()[0]
     if conflict > 0:
-        return None  # room not available
+        return None
 
     cursor.execute("SELECT IFNULL(MAX(Booking_ID),0) FROM Booking")
     maxid = cursor.fetchone()[0] or 0
